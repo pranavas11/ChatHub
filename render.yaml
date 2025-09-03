@@ -22,7 +22,7 @@ services:
     dockerContext: .
     envVars:
       - key: SEARXNG_API_URL
-        value: https://searxng.onrender.com
+        value: https://searxng-18u5.onrender.com
       - key: PORT
         value: 3001
       - key: GEMINI_API_KEY
@@ -39,7 +39,7 @@ services:
 
   # 3) Frontend (Next.js)
   - type: web
-    name: jupyter-frontend
+    name: jupyter-ai
     runtime: docker
     region: virginia
     plan: free
@@ -47,7 +47,7 @@ services:
     dockerContext: .
     envVars:
       - key: NEXT_PUBLIC_API_URL
-        value: https://https://jupyter-backend-vg7p.onrender.com/api
+        value: https://jupyter-backend-vg7p.onrender.com/api
       - key: NEXT_PUBLIC_WS_URL
         value: wss://jupyter-backend-vg7p.onrender.com
       - key: NODE_ENV

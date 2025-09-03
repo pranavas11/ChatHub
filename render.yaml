@@ -23,8 +23,8 @@ services:
     envVars:
       - key: SEARXNG_API_URL
         value: https://searxng-18u5.onrender.com
-      - key: PORT
-        value: 3001
+      # - key: PORT
+      #   value: 3001
       - key: GEMINI_API_KEY
         sync: false
       - key: OPENAI_API_KEY

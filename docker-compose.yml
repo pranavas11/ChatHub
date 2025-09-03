@@ -1,0 +1,61 @@
+services:                 # Top-level section: a list of containers you want to run together
+  searxng:                # Name of the first (and only active) service/container.
+    build:                # How to build the Docker image for this service.
+      context: .          # Use the current folder (.) as the build context (files sent to the Docker build).
+      dockerfile: searxng.dockerfile  # Build using this specific Dockerfile (not the default 'Dockerfile').
+    expose:               # *Internal* port hints (visible to other services on the same Docker network).
+      - 4000              # Says "I intend to use 4000 internally." (Note: expose is informational; see note below.)
+    ports:                # Publish container ports to your host machine so your browser/tools can reach them.
+      - 4000:8080         # Map host port 4000 -> container port 8080 (visit http://localhost:4000 to reach the app).
+    networks:             # Attach this service to one or more user-defined networks.
+      - jupyter           # Put it on the 'jupyter' network (created below).
+  
+  # ollama:
+  #   image: ollama/ollama:latest
+  #   restart: unless-stopped
+  #   ports:
+  #     - "11434:11434"      # optional, for host access
+  #   volumes:
+  #     - ollama:/root/.ollama
+  #   networks:
+  #     - jupyter
+
+  jupyter-backend:
+    build:
+      context: .
+      dockerfile: backend.dockerfile
+      args:
+        - SEARXNG_API_URL=http://searxng:8080
+                        # Build-time arg passed into the backend Dockerfile (via ARG).
+                        # 'searxng' is the service name; Docker's internal DNS resolves it to that container.
+    depends_on:
+      - searxng         # Start the 'searxng' service before this one (doesn't wait for readiness, just startup).
+    expose:
+      - 3001            # Internal port hint for other services on the network.
+    ports:
+      - 3001:3001       # Expose backend on http://localhost:3001 (host 3001 -> container 3001).
+    networks:
+      - jupyter
+
+  jupyter-frontend:
+    build:
+      context: .
+      dockerfile: app.dockerfile
+      args:
+        - NEXT_PUBLIC_WS_URL=ws://localhost:3001
+        - NEXT_PUBLIC_API_URL=http://localhost:3001/api
+                        # Build-time args typically baked into a frontend (e.g., Next.js) at build time.
+    depends_on:
+      - jupyter-backend # Start backend before frontend.
+    expose:
+      - 3000
+    ports:
+      - 3000:3000       # Expose frontend on http://localhost:3000
+    networks:
+      - jupyter
+
+networks:                 # Define custom networks your services can join.
+  jupyter:                # Create a 'jupyter' network (defaults to Docker's bridge driver with sane defaults).
+
+# volumes:
+#   ollama: {}

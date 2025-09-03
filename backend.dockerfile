@@ -7,7 +7,7 @@ WORKDIR /home/jupyter
 
 COPY src /home/jupyter/src
 COPY tsconfig.json /home/jupyter/
-COPY config.toml /home/jupyter/
+COPY config.default.toml /home/jupyter/config.toml
 COPY package.json /home/jupyter/
 COPY package-lock.json /home/jupyter/
 

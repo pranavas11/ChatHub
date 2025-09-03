@@ -1,0 +1,15 @@
+[GENERAL]
+PORT = 3001
+SIMILARITY_MEASURE = "cosine"
+CHAT_MODEL_PROVIDER = "gemini"  # "openai" or "ollama" or "groq"
+CHAT_MODEL = "Gemini 1.5 Flash" # "llama3:8b"
+
+[API_KEYS]
+OPENAI = ""
+GEMINI = ""
+CLAUDE = ""
+GROQ = ""
+
+[API_ENDPOINTS]
+SEARXNG = "http://searxng:8080"
+OLLAMA = ""                         # "http://ollama:11434"

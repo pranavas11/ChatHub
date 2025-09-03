@@ -6,6 +6,8 @@ CHAT_MODEL = "GPT-3.5-turbo"
 
 [API_KEYS]
 OPENAI = ""
+GEMINI = ""
+CLAUDE = ""
 GROQ = ""
 
 [API_ENDPOINTS]

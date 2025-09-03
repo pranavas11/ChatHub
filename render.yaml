@@ -1,44 +1,51 @@
 services:
   # 1) SearXNG as a Private Service
-  - type: pserv
+  - type: web
     name: searxng
     runtime: docker
-    region: ohio
+    region: virginia
     plan: free
     dockerfilePath: ./searxng.dockerfile
     dockerContext: .
     envVars:
       - key: PORT
         value: 8080  # SearXNG listens on 8080
+    healthCheckPath: /
 
   # 2) Backend (public Web Service so the browser can call it; switch to pserv if you keep it internal)
   - type: web
     name: jupyter-backend
     runtime: docker
-    region: ohio
+    region: virginia
     plan: free
     dockerfilePath: ./backend.dockerfile
     dockerContext: .
     envVars:
-      # IMPORTANT: After first deploy, open the SearXNG service in the dashboard -> Connect -> Internal.
-      # Copy the exact internal address (example: searxng-abc1:8080) and paste here with http://
       - key: SEARXNG_API_URL
-        value: http://searxng:8080
-      # If your app can read PORT from env, set it; else keep config.toml at 3001
+        value: https://searxng.onrender.com
       - key: PORT
         value: 3001
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: GROQ_API_KEY
+        sync: false
+      - key: SIMILARITY_MEASURE
+        value: cosine
+      - key: MODEL_NAME
+        value: gemini-1.5-flash
+    healthCheckPath: /healthz
 
   # 3) Frontend (Next.js)
   - type: web
     name: jupyter-frontend
     runtime: docker
-    region: ohio
+    region: virginia
     plan: free
     dockerfilePath: ./app.dockerfile
     dockerContext: .
     envVars:
-      # These MUST point to the backend’s public URL if the browser calls it directly.
-      # After Render creates the backend, replace with its real onrender.com URL or your custom domain.
       - key: NEXT_PUBLIC_API_URL
         value: https://jupyter-backend.onrender.com/api
       - key: NEXT_PUBLIC_WS_URL

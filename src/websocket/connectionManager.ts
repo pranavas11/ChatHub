@@ -2,7 +2,7 @@
 import { WebSocket } from "ws";
 import { handleMessage } from "./messageHandler";
 import { ChatOpenAI, OpenAIEmbeddings } from "@langchain/openai";
-import { getChatModel, getChatModelProvider, getOpenaiApiKey } from "../config";
+import { getChatModel, getChatModelProvider, getOpenaiApiKey, getGeminiApiKey } from "../config";
 import { getAvailableProviders } from "../lib/providers";
 import { BaseChatModel } from "@langchain/core/language_models/chat_models";
 import type { Embeddings } from "@langchain/core/embeddings";
@@ -11,6 +11,8 @@ export const handleConnection = async (ws: WebSocket) => {
   const models = await getAvailableProviders();
   const provider = getChatModelProvider();
   const chatModel = getChatModel();
+
+  console.log("Has Gemini key?", !!getGeminiApiKey());
 
   let llm: BaseChatModel | undefined;
   let embeddings: Embeddings | undefined;

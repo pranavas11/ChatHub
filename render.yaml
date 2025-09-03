@@ -49,6 +49,6 @@ services:
       - key: NEXT_PUBLIC_API_URL
         value: https://jupyter-backend-vg7p.onrender.com/api
       - key: NEXT_PUBLIC_WS_URL
-        value: wss://jupyter-backend-vg7p.onrender.com
+        value: wss://jupyter-backend-vg7p.onrender.com/ws
       - key: NODE_ENV
         value: production

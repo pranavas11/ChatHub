@@ -24,7 +24,7 @@ interface Config {
 
 const loadConfig = () => toml.parse(fs.readFileSync(path.join(__dirname, `../${configFileName}`), "utf-8")) as any as Config;
 
-export const getPort = () => loadConfig().GENERAL.PORT;
+export const getPort = () => loadConfig().GENERAL.PORT || 3001;
 
 export const getSimilarityMeasure = () => loadConfig().GENERAL.SIMILARITY_MEASURE;
 

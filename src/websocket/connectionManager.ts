@@ -33,6 +33,14 @@ export const handleConnection = async (ws: WebSocket) => {
     return;
   }
 
+  ws.on('error', (error) => {
+    console.error('WebSocket error:', error);
+  });
+
+  ws.on('ping', () => {
+    ws.pong();
+  });
+
   ws.on(
     "message",
     async (message) =>

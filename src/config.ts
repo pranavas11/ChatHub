@@ -34,13 +34,13 @@ export const getOllamaApiEndpoint = () => loadConfig().API_ENDPOINTS.OLLAMA;
 
 export const getChatModel = () => loadConfig().GENERAL.CHAT_MODEL;
 
-export const getOpenaiApiKey = () => loadConfig().API_KEYS.OPENAI;
+export const getOpenaiApiKey = () => process.env.OPENAI_API_KEY || loadConfig().API_KEYS.OPENAI;
 
-export const getGroqApiKey = () => loadConfig().API_KEYS.GROQ;
+export const getGroqApiKey = () => process.env.GROQ_API_KEY || loadConfig().API_KEYS.GROQ;
 
-export const getGeminiApiKey = () => loadConfig().API_KEYS.GEMINI;
+export const getGeminiApiKey = () => process.env.GEMINI_API_KEY || loadConfig().API_KEYS.GEMINI;
 
-export const getSearxngApiEndpoint = () => loadConfig().API_ENDPOINTS.SEARXNG;
+export const getSearxngApiEndpoint = () => process.env.SEARXNG_API_URL || loadConfig().API_ENDPOINTS.SEARXNG;
 
 type RecursivePartial<T> = {
   [P in keyof T]?: RecursivePartial<T[P]>;

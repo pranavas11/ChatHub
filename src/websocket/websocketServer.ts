@@ -52,32 +52,18 @@ import http from "http";
 import { WebSocketServer } from "ws";
 import { handleConnection } from "./connectionManager";
 
-export const initServer = (server: http.Server) => {
-  // Accept WS upgrades only on /ws
-  const wss = new WebSocketServer({ server, path: "/ws" });
+export const initServer = (
+  server: http.Server<typeof http.IncomingMessage, typeof http.ServerResponse>
+) => {
+  const wss = new WebSocketServer({ 
+    server,
+    path: '/ws'  // ✅ Add explicit path
+  });
 
-  wss.on("connection", (ws, req) => {
-    console.log("WS client connected:", req.socket.remoteAddress);
+  wss.on("connection", (ws, request) => {
+    console.log('WebSocket connection established at:', request.url);
     handleConnection(ws);
   });
 
-  // Optional: keep-alive (helps prevent idle disconnects)
-  const interval = setInterval(() => {
-    for (const client of wss.clients) {
-      // @ts-ignore add a simple heartbeat flag
-      if ((client as any).isAlive === false) { client.terminate(); continue; }
-      (client as any).isAlive = false;
-      client.ping();
-    }
-  }, 30000);
-
-  wss.on("connection", (ws) => {
-    // @ts-ignore heartbeat flag
-    (ws as any).isAlive = true;
-    ws.on("pong", () => { /* @ts-ignore */ (ws as any).isAlive = true; });
-  });
-
-  wss.on("close", () => clearInterval(interval));
-
-  console.log("WebSocket listening at path /ws");
+  console.log(`WebSocket listening at path /ws`);
 };

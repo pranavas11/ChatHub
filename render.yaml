@@ -14,7 +14,7 @@ services:
 
   # 2) Backend (public Web Service so the browser can call it; switch to pserv if you keep it internal)
   - type: web
-    name: jupyter-backend
+    name: chathub-backend
     runtime: docker
     region: virginia
     plan: free
@@ -23,8 +23,6 @@ services:
     envVars:
       - key: SEARXNG_API_URL
         value: https://searxng-18u5.onrender.com
-      # - key: PORT
-      #   value: 3001
       - key: PORT
         value: 10000
       - key: GEMINI_API_KEY
@@ -41,7 +39,7 @@ services:
 
   # 3) Frontend (Next.js)
   - type: web
-    name: jupyter-ai
+    name: chathub
     runtime: docker
     region: virginia
     plan: free

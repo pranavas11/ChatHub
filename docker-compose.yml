@@ -8,7 +8,7 @@ services:                 # Top-level section: a list of containers you want to 
     ports:                # Publish container ports to your host machine so your browser/tools can reach them.
       - 4000:8080         # Map host port 4000 -> container port 8080 (visit http://localhost:4000 to reach the app).
     networks:             # Attach this service to one or more user-defined networks.
-      - jupyter           # Put it on the 'jupyter' network (created below).
+      - chathub           # Put it on the 'chathub' network (created below).
   
   # ollama:
   #   image: ollama/ollama:latest
@@ -18,9 +18,9 @@ services:                 # Top-level section: a list of containers you want to 
   #   volumes:
   #     - ollama:/root/.ollama
   #   networks:
-  #     - jupyter
+  #     - chathub
 
-  jupyter-backend:
+  chathub-backend:
     build:
       context: .
       dockerfile: backend.dockerfile
@@ -35,9 +35,9 @@ services:                 # Top-level section: a list of containers you want to 
     ports:
       - 3001:3001       # Expose backend on http://localhost:3001 (host 3001 -> container 3001).
     networks:
-      - jupyter
+      - chathub
 
-  jupyter-frontend:
+  chathub-frontend:
     build:
       context: .
       dockerfile: app.dockerfile
@@ -46,16 +46,16 @@ services:                 # Top-level section: a list of containers you want to 
         - NEXT_PUBLIC_API_URL=http://localhost:3001/api
                         # Build-time args typically baked into a frontend (e.g., Next.js) at build time.
     depends_on:
-      - jupyter-backend # Start backend before frontend.
+      - chathub-backend # Start backend before frontend.
     expose:
       - 3000
     ports:
       - 3000:3000       # Expose frontend on http://localhost:3000
     networks:
-      - jupyter
+      - chathub
 
 networks:                 # Define custom networks your services can join.
-  jupyter:                # Create a 'jupyter' network (defaults to Docker's bridge driver with sane defaults).
+  chathub:                # Create a 'chathub' network (defaults to Docker's bridge driver with sane defaults).
 
 # volumes:
 #   ollama: {}

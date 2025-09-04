@@ -5,9 +5,9 @@ ARG NEXT_PUBLIC_API_URL
 ENV NEXT_PUBLIC_WS_URL=${NEXT_PUBLIC_WS_URL}
 ENV NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
 
-WORKDIR /home/jupyter
+WORKDIR /home/chathub
 
-COPY ui /home/jupyter/
+COPY ui /home/chathub/
 
 RUN npm install
 RUN npm run build

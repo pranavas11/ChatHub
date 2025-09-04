@@ -6,8 +6,8 @@ import Sidebar from "@/components/Sidebar";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Jupyter - AI Research Assistant",
-  description: "Juputer is an AI powered research assistant that answers queries based on factual data",
+  title: "ChatHub - AI Research Assistant",
+  description: "ChatHub is an AI powered research assistant that answers queries based on factual data",
 };
 
 export default function RootLayout({
